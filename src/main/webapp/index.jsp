@@ -41,6 +41,9 @@
       <div class="main-panel">
         <div class="content-wrapper">
           <!-- bodyyyyyy -->
+          <c:if test="${ !empty sessionScope.username && !empty sessionScope.password }" == true>
+          	<p> ${ sessionScope.username }</p>
+          </c:if>
           
         </div>
         

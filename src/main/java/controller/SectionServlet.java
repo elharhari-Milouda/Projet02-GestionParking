@@ -42,8 +42,8 @@ public class SectionServlet extends HttpServlet {
 				List<Place> newSect = new ArrayList<Place>();
 				for (Section section : Sections) {
 					Place pl = new Place();
-					pl.setId(section.getId());// id : section
-					pl.setEtat(section.getCode());// etat : code section
+					pl.setId(section.getId()); // identifiant de la section
+					pl.setEtat(section.getCode()); // code de la section
 					int cpt = 0;
 					int ett = 0;
 					for (Place place : places) {
@@ -54,12 +54,17 @@ public class SectionServlet extends HttpServlet {
 							cpt++;
 						}
 					}
-					pl.setNumero(cpt);// numero : nbr de place dans chaqie section
-					pl.setSection(ett);// sectionn :br de place aucuper dans chaque section
+					if (cpt == 0) {
+						pl.setType("Les places ne sont pas encore dispo");
+					} else {
+						pl.setType(cpt + " places");
+					}
+					pl.setNumero(cpt); // nombre de places dans chaque section
+					pl.setSection(ett); // nombre de places occuppee dans chaque section
 					newSect.add(pl);
-					 System.out.println(pl);
+					// System.out.println(pl);
 				}
-				 System.out.println(newSect);
+				System.out.println(newSect);
 				Gson json = new Gson();
 				response.getWriter().write(json.toJson(newSect));
 
@@ -81,6 +86,14 @@ public class SectionServlet extends HttpServlet {
 				Gson json = new Gson();
 				response.getWriter().write(json.toJson(Sections));
 
+			} else if (request.getParameter("op").equals("search")) {
+				String code = request.getParameter("codeSection");
+				response.setContentType("application/json");
+				Section Section = ss.findByCodee(code);
+				System.out.println(code);
+				Gson json = new Gson();
+				response.getWriter().write(json.toJson(Section));
+				
 			} else if (request.getParameter("op").equals("add")) {
 				String code = request.getParameter("code");
 				boolean existe = ss.findByCode(code);

@@ -52,7 +52,7 @@
 							<h6 class="font-weight-light">Sign in to continue.</h6>
 							<form class="pt-3">
 								<div class="form-group">
-									<input type="email" class="form-control form-control-lg"
+									<input type="text" class="form-control form-control-lg"
 										id="exampleInputEmail1" placeholder="Username" name="Username">
 								</div>
 								<div class="form-group">

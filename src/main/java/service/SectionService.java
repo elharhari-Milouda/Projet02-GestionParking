@@ -95,6 +95,23 @@ public class SectionService implements IDao<Section> {
 		}
 		return false;
 	}
+	
+	public Section findByCodee(String code) {
+		// Section section = null;
+		String sql = "select * from section where code  = ?";
+		try {
+			PreparedStatement ps = Connexion.getInstane().getConnection().prepareStatement(sql);
+			ps.setString(1, code);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				return new Section(rs.getInt("id"), rs.getString("code"));
+			}
+
+		} catch (SQLException e) {
+			System.out.println("findById " + e.getMessage());
+		}
+		return null;
+	}
 
 	@Override
 	public List<Section> findAll() {
@@ -113,8 +130,6 @@ public class SectionService implements IDao<Section> {
 			System.out.println("findAll " + e.getMessage());
 		}
 		return sections;
-	}
-
-	
+	}	
 
 }

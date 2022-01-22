@@ -76,9 +76,10 @@
 							<div class="form-group" style="float: right;">
 								<div class="input-group">
 									<input type="text" class="form-control"
-										placeholder="Code section" aria-label="Code section">
+										placeholder="Code section" aria-label="Code section" name="codeSection" id="codeSection">
 									<div class="input-group-append">
-										<button class="btn btn-sm btn-primary" type="button">Search</button>
+										<input id="search" type="button" value="Search"
+										class="btn btn-sm btn-primary"/>
 									</div>
 								</div>
 							</div>
@@ -247,7 +248,7 @@
 		});
 	}
 		$(document).ready(function f() {
-			load();
+			//load();
 			$.ajax({
 				url : "SectionServlet",
 				data : {
@@ -330,23 +331,40 @@
 				}
 			});
 		});
+		$("#search").click(function() {
+			alert("salam");
+			var code = $("#codeSection").val();
+			$.ajax({
+				url : "SectionServlet",
+				data : {
+					op : "search",
+					code : code
+				},
+				type : 'POST',
+				success : function(data, textStatus, jqXHR) {
+					//remplir(data);
+					load();
+				},
+				
+				error : function(jqXHR, textStatus, errorThrown) {
+					console.log(textStatus);
+				}
+			});
+		});
 		function remplir(data) {
 			var ligne = "";
 			data.forEach(function(e) {
 				//alert(e.id+"|"+e.etat+"|"+e.section+"|"+e.numero);
 						ligne += "<tr><td>"
-	
 								+ e.id
 								+ "</td><td>"
 								+ e.etat
 								+ "</td><td><div class='progress'><div class='progress-bar bg-success' role='progressbar' style='width:"
-								//aler(e.section);
 								+ (e.section / e.numero) * 100
 								+ "%' aria-valuenow='25' aria-valuemin='0' aria-valuemax='100'></div></div>"
 								+ "</td><td>"
-								+ e.numero
+								+ e.type
 								+ "</td><td><button id='delete' class='btn btn-danger delete'>Supprimer</button></td><td><button class='btn btn-dark btn-icon-text update' onclick='showPopp();'>Modifier<i class='ti-file btn-icon-append'></i></button></td></tr>";
-
 					});
 			$("#content").html(ligne);
 		}
